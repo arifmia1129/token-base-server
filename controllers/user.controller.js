@@ -1,5 +1,6 @@
 const User = require("../models/user.model")
 const bcrypt = require("bcrypt");
+const { generateToken } = require("../config/generateToken");
 const salt = bcrypt.genSaltSync(10);
 
 exports.registerUser = async (req, res) => {
@@ -72,7 +73,6 @@ exports.loginUser = async (req, res) => {
         }
 
         const { password: pwd, ...user } = exist.toObject();
-        console.log(exist)
 
         bcrypt.compare(password, exist.password, async (err, result) => {
             if (err) {
@@ -88,10 +88,15 @@ exports.loginUser = async (req, res) => {
                 })
             }
 
+            const token = generateToken(user._id, user.username)
+
             res.status(200).json({
                 success: true,
                 message: "Successfully logged in user",
-                user
+                user: {
+                    user,
+                    token
+                }
             })
         });
 

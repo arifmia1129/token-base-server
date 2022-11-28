@@ -6,6 +6,9 @@ const dev = {
     },
     db: {
         url: process.env.DB_URL
+    },
+    token: {
+        jwt: process.env.JWT_KEY
     }
 }
 
