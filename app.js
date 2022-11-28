@@ -1,13 +1,16 @@
 const express = require("express");
 const cors = require("cors");
-const bcrypt = require("bcrypt");
+
 
 require("./config/connectDB");
+const userRouter = require("./routes/user.route");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use("/api/user", userRouter);
 
 // base url
 app.get("/", (req, res) => {
